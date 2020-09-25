@@ -53,7 +53,6 @@ dispatch({
           <Route path="/payment">
         <Header />
         <Payment />
-            <h1>Hello</h1>
           </Route>
 
           <Route path="/">

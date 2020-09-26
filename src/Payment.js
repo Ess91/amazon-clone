@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Payment.css";
 import { useStateValue } from "./StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
@@ -10,6 +10,7 @@ import axios from "axios";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
+  const history = useHistory();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -47,6 +48,12 @@ function Payment() {
       }
     }).then(({ paymentIntent }) )
     //paymentIntent = payment confirmation
+
+    setSucceeded(true);
+    setError(null)
+    setProcessing(false)
+
+    history.replace('/orders')
   };
 
   const handleChange = (event) => {

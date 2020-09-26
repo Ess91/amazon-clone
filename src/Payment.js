@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Payment.css";
 import { useStateValue } from "./StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
+import axios from "axios";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
- 
+
   const stripe = useStripe();
   const elements = useElements();
 
@@ -17,20 +18,44 @@ function Payment() {
   const [processing, setProcessing] = useState("");
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
+  const [clientSecret, setClientSecret] = useState(true);
+
+  useEffect(() => {
+    //Generate a special stripe secret allowing customers to be charged
+
+    const getClientSecret = async () => {
+      const response = await axios({
+        method: 'post',
+        //Stripe expects the total in a currencies submits
+        url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
+      });
+      setClientSecret(response.data.clientSecret)
+    }
+
+    getClientSecret();
+  }, [basket]) //When basket changes, the code at top will send a request to the client stripe for the customer to be charged
 
   const handleSubmit = async (event) => {
     //stripe part
 
     event.preventDefault();
-  }
+    setProcessing(true);
 
-  const handleChange = event => {
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement)
+      }
+    }).then(({ paymentIntent }) )
+    //paymentIntent = payment confirmation
+  };
+
+  const handleChange = (event) => {
     //Listen for changes in CardElement
     //Display any errors as the customer types their info
-  
+
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
-  }
+  };
 
   return (
     <div className="payment">
@@ -76,34 +101,32 @@ function Payment() {
           </div>
           <div className="payment__details">
             {/*Stripe*/}
-            
-            <form onSubmit={handleSubmit}>
 
-              <CardElement onChange={handleChange}/>
+            <form onSubmit={handleSubmit}>
+              <CardElement onChange={handleChange} />
 
               <div className="payment__priceContainer">
-              <CurrencyFormat
-            renderText={(value) => (
-                <>
-                <h3>Order Total: {value}</h3>
-                </>
-            )}
-            
-            decimalScale={2}
-            value={getBasketTotal(basket)}
-            displayType={"text"}
-            thousandSeparator={true}
-            prefix={"£"}
-            />
+                <CurrencyFormat
+                  renderText={(value) => (
+                    <>
+                      <h3>Order Total: {value}</h3>
+                    </>
+                  )}
+                  decimalScale={2}
+                  value={getBasketTotal(basket)}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"£"}
+                />
 
-            <button disabled={processing || disabled || succeeded}>
-            <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
-            </button>
+                <button disabled={processing || disabled || succeeded}>
+                  <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
+                </button>
               </div>
-                  {/*Error*/}
-                  {error && <div>{error}</div>}
+              {/*Error*/}
+              {error && <div>{error}</div>}
             </form>
-            </div>
+          </div>
         </div>
       </div>
     </div>

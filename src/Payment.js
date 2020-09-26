@@ -26,15 +26,17 @@ function Payment() {
 
     const getClientSecret = async () => {
       const response = await axios({
-        method: 'post',
-        //Stripe expects the total in a currencies submits
+        method: "post",
+        //Stripe expects the total in a currencies subunits
         url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
       });
-      setClientSecret(response.data.clientSecret)
-    }
+      setClientSecret(response.data.clientSecret);
+    };
 
     getClientSecret();
-  }, [basket]) //When basket changes, the code at top will send a request to the client stripe for the customer to be charged
+  }, [basket]); //When basket changes, the code at top will send a request to the client stripe for the customer to be charged
+
+  console.log("THE SECRET IS >>>".clientSecret);
 
   const handleSubmit = async (event) => {
     //stripe part
@@ -42,18 +44,21 @@ function Payment() {
     event.preventDefault();
     setProcessing(true);
 
-    const payload = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement)
-      }
-    }).then(({ paymentIntent }) )
-    //paymentIntent = payment confirmation
+    const payload = await stripe
+      .confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      })
+      .then(({ paymentIntent }) => {
+        //paymentIntent = payment confirmation
+      });
 
     setSucceeded(true);
-    setError(null)
-    setProcessing(false)
+    setError(null);
+    setProcessing(false);
 
-    history.replace('/orders')
+    history.replace("/orders");
   };
 
   const handleChange = (event) => {

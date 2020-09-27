@@ -49,8 +49,8 @@ function Payment() {
     const payload = await stripe
       .confirmCardPayment(clientSecret, {
         payment_method: {
-          card: elements.getElement(CardElement)
-        }
+          card: elements.getElement(CardElement),
+        },
       })
       .then(({ paymentIntent }) => {
         //paymentIntent = payment confirmation
@@ -62,29 +62,27 @@ function Payment() {
             basket: basket,
             amount: paymentIntent.amount,
             created: paymentIntent.created,
-          })
+          });
 
         setSucceeded(true);
-        setError(null)
-        setProcessing(false)
-      
+        setError(null);
+        setProcessing(false);
 
         dispatch({
           type: "EMPTY_BASKET",
-        })
+        });
 
         history.replace("/orders");
-      })
-  }
+      });
+  };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     //Listen for changes in CardElement
     //Display any errors as the customer types their info
 
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
-    
-  }
+  };
 
   return (
     <div className="payment">
@@ -152,7 +150,8 @@ function Payment() {
                   <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
                 </button>
               </div>
-              {/*Error*/}
+
+              {/* Errors */}
               {error && <div>{error}</div>}
             </form>
           </div>

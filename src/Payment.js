@@ -9,6 +9,8 @@ import { getBasketTotal } from "./reducer";
 import axios from "axios";
 import { db } from "./firebase";
 
+
+
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
   const history = useHistory();
@@ -37,8 +39,9 @@ function Payment() {
     getClientSecret();
   }, [basket]); //When basket changes, the code at top will send a request to the client stripe for the customer to be charged
 
+  
   console.log("THE SECRET IS >>>", clientSecret);
-  console.log("👱", user);
+  //console.log("👱", user);
 
   const handleSubmit = async (event) => {
     //stripe part
@@ -143,7 +146,7 @@ function Payment() {
                   value={getBasketTotal(basket)}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"$"}
+                  prefix={"£"}
                 />
 
                 <button disabled={processing || disabled || succeeded}>

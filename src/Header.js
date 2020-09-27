@@ -13,7 +13,7 @@ function Header() {
     if (user) {
       auth.signOut();
     }
-  };
+  }
 
   return (
     <div className="header">

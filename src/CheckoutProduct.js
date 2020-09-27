@@ -9,8 +9,9 @@ function CheckoutProduct({ id, image, title, price, rating, hideButton }) {
     dispatch({
       type: "REMOVE_FROM_BASKET",
       id: id,
-    });
-  };
+    })
+  }
+  
   return (
     <div className="checkoutProduct">
       <img className="checkoutProduct__image" src={image} />

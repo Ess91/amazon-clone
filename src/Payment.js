@@ -37,7 +37,7 @@ function Payment() {
     getClientSecret();
   }, [basket]); //When basket changes, the code at top will send a request to the client stripe for the customer to be charged
 
-  console.log("THE SECRET IS >>>".clientSecret);
+  console.log("THE SECRET IS >>>", clientSecret);
   console.log("👱", user);
 
   const handleSubmit = async (event) => {
@@ -49,8 +49,8 @@ function Payment() {
     const payload = await stripe
       .confirmCardPayment(clientSecret, {
         payment_method: {
-          card: elements.getElement(CardElement),
-        },
+          card: elements.getElement(CardElement)
+        }
       })
       .then(({ paymentIntent }) => {
         //paymentIntent = payment confirmation
@@ -67,6 +67,7 @@ function Payment() {
         setSucceeded(true);
         setError(null)
         setProcessing(false)
+      
 
         dispatch({
           type: "EMPTY_BASKET",
@@ -83,7 +84,7 @@ function Payment() {
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
     
-  };
+  }
 
   return (
     <div className="payment">

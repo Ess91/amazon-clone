@@ -19,4 +19,16 @@
   .checkout div {
     padding-left: 5px;
   }
+
+  @media only screen and (max-width: 1080px) {
+    .checkout {
+      flex-direction: column;
+    }
+  }
+  
+  @media only screen and (max-width: 650px) {
+    .checkout {
+      min-height: calc(100vh - 150px);
+    }
+  }
   

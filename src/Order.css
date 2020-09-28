@@ -16,3 +16,18 @@
     font-weight: 500;
     text-align: right;
   }
+
+
+  @media screen and (max-width: 635px) {
+    .order__id {
+      font-size: 12px;
+      top: 20px;
+    }
+  }
+
+  @media screen and(max-width: 511px) {
+    .order {
+      width: 100px;
+     
+    }
+  }

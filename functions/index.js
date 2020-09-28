@@ -13,7 +13,7 @@ const app = express();
 
 // - Middlewares
 app.use(cors({ origin: true }));
-app.use(json());
+app.use(express.json());
 
 // - API routes
 app.get("/", (request, response) => response.status(200).send("Hello World"));
@@ -30,7 +30,7 @@ app.post("/payments/create", async (request, response) => {
     currency: "gbp",
   });
 
-  // OK - Created
+  // OK - Created Response Code
   response.status(201).send({
     clientSecret: paymentIntent.client_secret,
   });
@@ -39,4 +39,5 @@ app.post("/payments/create", async (request, response) => {
 
 exports.api = functions.https.onRequest(app);
 
-
+//Example Endpoint
+// http://localhost:5001/clone-56b93/us-central1/api

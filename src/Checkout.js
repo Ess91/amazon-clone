@@ -3,6 +3,7 @@ import "./Checkout.css";
 import Subtotal from "./Subtotal";
 import CheckoutProduct from "./CheckoutProduct";
 import { useStateValue } from "./StateProvider";
+import FlipMove from "react-flip-move";
 
 function Checkout() {
 //The Basket
@@ -22,7 +23,8 @@ const [{ basket, user }, dispatch] = useStateValue();
           <h2 className="checkout__title">Your Shopping Basket</h2>
         
           {basket.map(item => (
-          
+          <FlipMove>
+            <div key={item.id}>
             <CheckoutProduct
             
               id={item.id}
@@ -31,7 +33,8 @@ const [{ basket, user }, dispatch] = useStateValue();
               price={item.price}
               rating={item.rating}
             />
-           
+            </div>
+           </FlipMove>
           ))}
         </div>
     </div>

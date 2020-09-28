@@ -9,7 +9,15 @@
     max-height: 400px;
     min-width: 100px;
     background-color: white;
+    border-radius: 10px;
     z-index: 1;
+    transition: 400ms ease-in-out;
+  }
+
+  .product:hover {
+    transform: scale(1.015);
+    transform-origin: center center;
+    filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.5));
   }
   
   .product__rating {
@@ -39,3 +47,15 @@
     height: 100px;
     margin-bottom: 15px;
   }
+
+
+@media screen and (max-width:768px) {
+  .product {
+   
+   margin-top: 50px;
+   display: flex;
+   flex-direction: column;
+  }
+}
+ 
+    

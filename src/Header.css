@@ -67,3 +67,24 @@
     margin-right: 10px;
     color: white;
   }
+
+  @media only screen and (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      height: 120px;
+      padding-left: 20px;
+    }
+  
+    .header__container {
+      width: 100%;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+    }
+    .header__nav {
+      width: 80%;
+      text-align: center;
+    
+    }
+  }
+  

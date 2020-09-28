@@ -15,4 +15,8 @@
     padding: 10px;
     border-bottom: 1px solid lightgray;
   }
+
+  .checkout div {
+    padding-left: 5px;
+  }
   

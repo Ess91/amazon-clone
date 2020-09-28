@@ -9,12 +9,15 @@ function Login() {
     const [ password, setPassword] = useState('');
 
     const signIn = e => {
+        // Prevent page refreshing
         e.preventDefault();
 
         auth
             .signInWithEmailAndPassword(email, password)
             .then(auth => {
+                // Successfully signed in, print auth object to the console
                 history.push('/')
+                // Redirect the user to the / page
         })
         .catch(error => alert(error.message))
     }
@@ -25,6 +28,8 @@ function Login() {
         auth.createUserWithEmailAndPassword(email, password).then((auth) => {
             //Successfully created new user with email and password
             console.log(auth);
+             // If the auth object comes back as non-empty, 
+             //user was successfully created; and we can redirect the user to /
             if (auth) {
                 history.push('/')
             }

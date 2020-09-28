@@ -6,7 +6,8 @@ import CurrencyFormat from "react-currency-format";
 import { useStateValue } from './StateProvider';
 
 
-
+// This component renders on the /orders page 
+// Each order from the Firebase Db that comes back gets rendered through this component
 
 function Order({ order }) {
   

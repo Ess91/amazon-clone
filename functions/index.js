@@ -21,7 +21,8 @@ app.get("/", (request, response) => response.status(200).send("Hello World"));
 
 
 app.post("/payments/create", async (request, response) => {
-  const total = request.query.total;
+  ///Since payment.js const response has total as a query parameter in the URL
+  const total = request.query.total; //This is amount in subunits
 
   console.log("Payment Request Recieved >>> ", total);
 
@@ -37,6 +38,7 @@ app.post("/payments/create", async (request, response) => {
 });
 
 
+//Listen Command
 exports.api = functions.https.onRequest(app);
 
 //Example Endpoint

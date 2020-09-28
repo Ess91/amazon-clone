@@ -24,8 +24,10 @@ function Payment() {
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState(true);
 
+
+  // UseEffect is communicating with Stripe.
   useEffect(() => {
-    //Generate a special stripe secret allowing customers to be charged
+    //Generate a special stripe secret allowing customers to be charged 
 
     const getClientSecret = async () => {
       const response = await axios({
@@ -49,9 +51,16 @@ function Payment() {
 
   const handleSubmit = async (event) => {
     //stripe part
+ // To allow Clicking of the Buy Now button only once
 
     event.preventDefault();
     setProcessing(true);
+
+// This is talking to Stripe to find out how much to charge the customer
+    // stripe.confirmCardPayment(clientSecret, {payment_method: {card}})
+    // This is a promise, so when the response comes back, we deconstruct 
+    //it and retrieve paymentIntent(Payment Confirmation)
+    
 
     const payload = await stripe
       .confirmCardPayment(clientSecret, {
@@ -60,25 +69,30 @@ function Payment() {
         },
       })
       .then(({ paymentIntent }) => {
+        // Push orders into the firebase Db!
         //paymentIntent = payment confirmation
-        db.collection("users")
-          .doc(user?.uid)
-          .collection("orders")
-          .doc(paymentIntent.id)
+        db.collection("users") // Reach into the users collection in Firebase Db
+          .doc(user?.uid) // Look for this user in the db. This user is coming from state (user must be logged in)
+          .collection("orders") // Reach into this specific user's orders
+          .doc(paymentIntent.id) // Create document with paymentIntent Id with the following items
           .set({
-            basket: basket,
-            amount: paymentIntent.amount,
-            created: paymentIntent.created,
+            basket: basket, // Pass in basket items
+            amount: paymentIntent.amount, // Comes back from Stripe
+            created: paymentIntent.created, //Timestamp of when payment was created
           });
 
         setSucceeded(true);
         setError(null);
         setProcessing(false);
 
+         // Dispatch an event into react context api
         dispatch({
           type: "EMPTY_BASKET",
         });
 
+
+        // Dont do history.push because we dont want the user to come back to the payment page
+        // Instead swap the page by doing history.replace
         history.replace("/orders");
       });
   };
@@ -88,7 +102,9 @@ function Payment() {
     //Display any errors as the customer types their info
 
     setDisabled(event.empty);
+     // If the field is empty, show nothing
     setError(event.error ? event.error.message : "");
+     // If there is an error, show the error, otherwise show nothing
   };
 
   return (
@@ -155,11 +171,13 @@ function Payment() {
 
                 <button disabled={processing || disabled || succeeded}>
                   <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
+                   {/* Once Buy Now button is clicked, it'll switch to saying Processing and button will be disabled */}
                 </button>
               </div>
 
               {/* Errors */}
               {error && <div>{error}</div>}
+              {/* If there are any errors with the card number as it's being typed in, it'll show on screen */}
             </form>
           </div>
         </div>

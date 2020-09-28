@@ -11,6 +11,9 @@ function Header() {
 
   const handleAuthentication = () => {
     if (user) {
+
+      //// If you clicked on the header__option div when the text says Sign Out (user is not empty), 
+      //invoke firebase's signOut method on the auth object and sign out of firebase
       auth.signOut();
     }
   }
@@ -29,10 +32,13 @@ function Header() {
       </div>
 
       <div className="header__nav">
+        {/* If no user, redirect to login page*/}
+    
         <Link to="/login">
           <div onClick={handleAuthentication} className="header__option">
             <span className="header__optionLineOne">Hello, {!user ? 'Guest' : user.email} </span>
 
+ {/* User is signed in, display Sign Out, otherwise display Sign In */}
             <span className="header__optionLineTwo">
               {user ? "Sign Out" : "Sign In"}
             </span>

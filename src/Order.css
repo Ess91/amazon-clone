@@ -1,8 +1,8 @@
 .order {
-    padding: 40px;
+  background-color: white;
+  padding: 40px;
     margin: 20px 0;
     border: 1px solid lightgray;
-    background-color: white;
     position: relative;
     border-radius: 5px;
 }
@@ -26,9 +26,11 @@
     }
   }
 
-  @media screen and(max-width: 511px) {
+  @media screen and (max-width: 520px) {
     .order {
-      width: 100px;
-     
+    padding-left: 10px;
+    margin-left: 0px;
+    margin-right: -70px;
+    
     }
   }

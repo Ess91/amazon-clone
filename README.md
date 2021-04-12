@@ -2,6 +2,7 @@
 
 This project is an Amazon Clone using React. It displays a few items on the homepage and the user is able to select an item(s) into their baskets. Before this, the user is able to sign in or sign up for an "Amazon" account. Once the user goes into the checkout, they are able to review their items and pay for it.
 
+![Amazon_Clone](/public/amazon.png)
 
 
 

@@ -28,6 +28,10 @@ Find a suitable folder on your local computer for your forked repository and the
 
 ReactJS, HTML & CSS
 
+#### Additional Technologies
+
+Firebase & Stripe
+
 ### Features
 
 * Register for an "Amazon" account

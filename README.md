@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Installation
 
-1. Fork the e-commerce repository
+1. Fork the amazon-clone repository
    either by:
 
    1. Downloading the file as a zip folder - Downloading the zip folder onto your personal computer and extracting it from there
